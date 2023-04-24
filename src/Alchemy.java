@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Alchemy {
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Введите названия элементов через пробел: ");
@@ -9,28 +11,39 @@ public class Alchemy {
         String[] words = elements.split("\\s+"); // разбиваем на массив отдельных слов
 
         ArrayList elementList = new ArrayList(); //для переданных аргументов создаются объекты соответствующих классов
-        for (int i = 0;i< words.length;i++){
-            if (words [i].equals("Fire")) {
-                elementList.add(new Fire());
+        String res = "OK";
+        for (int i = 0;i< words.length;i++) {
+            switch (words[i]) {
+                case "Fire":
+                case "Water":
+                case "Air":
+                case "Earth":
+                    res = "OK"; continue;
+                default:
+                    res = "Close";
+                    break;
             }
-            else if (words [i].equals("Air")) {
-                elementList.add(new Air());
-            }
-            else if (words [i].equals("Earth")) {
-                elementList.add(new Earth());
-            }
-            else if (words [i].equals("Water")) {
-                elementList.add(new Water ());
-            }
-            else break; //Если хотя бы для одного из аргументов нельзя создать объект, то программа завершается
         }
-        System.out.println(elementList);
-        for (int i = 0;i< words.length;i++){
-        NatureElement first = (NatureElement) elementList.get(i);
-        NatureElement second = (NatureElement) elementList.get(i+1);
-        MixedElement result = first.connect(second);
-            System.out.println(result);
-        }
-
+        System.out.println(res);
+        if (res == "Close") System.out.println("Введите названия элементов с большой буквы!");
+        else {
+                for (int j = 0; j < words.length; j++) {
+                    if (words[j].equals("Fire")) {
+                        elementList.add(NatureElement.create("fire"));
+                    } else if (words[j].equals("Air")) {
+                        elementList.add(NatureElement.create("air"));
+                    } else if (words[j].equals("Earth")) {
+                        elementList.add(NatureElement.create("earth"));
+                    } else if (words[j].equals("Water")) {
+                        elementList.add(NatureElement.create("water"));
+                    }
+                }
+                for (int k = 0; k < elementList.size(); k++) { //Далее попарно объединяются объекты и выводятся соответствующие сообщения.
+                    NatureElement first = (NatureElement) elementList.get(k);
+                    NatureElement second = (NatureElement) elementList.get(k + 1);
+                    NatureElement third = first.connect(second);
+                    k = k + 1;
+                }
+            }
     }
 }

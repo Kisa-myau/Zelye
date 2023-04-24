@@ -1,20 +1,23 @@
 public class Earth extends NatureElement {
+    public Earth(String name) {
+        this.name = name;
+    }
     @Override
-    public MixedElement connect (NatureElement NatureElement) {
-        Object type = NatureElement.getClass();
-        MixedElement mixedElement;
-        if (type.equals("Fire")) {
-            mixedElement = new Lava();
-        } else if (type.equals("Air")) {
-            mixedElement = new Dust();
-        } else if (type.equals("Earth")) {
-            mixedElement = new Pressure();
-        } else if (type.equals("Water")) {
-            mixedElement = new Mud();
-        } else {
-            mixedElement = null;
-            System.out.println("Нет нового элемента");
-        }
-        return mixedElement;
+    public MixedElement connect (NatureElement natureElement) {
+            MixedElement res = null;
+            if (natureElement instanceof Air) {
+                res = new Dust();
+                System.out.println("Earth + Air = " + res);
+            } else if (natureElement instanceof Earth) {
+                res = new Pressure();
+                System.out.println("Earth + Earth = " + res);
+            } else if (natureElement instanceof Water) {
+                res = new Mud();
+                System.out.println("Earth + Water = " + res);
+            } else if (natureElement instanceof Fire) {
+                res = new Lava();
+                System.out.println("Earth + Fire = " + res);
+            }
+            return res;
     }
 }
